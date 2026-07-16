@@ -5,21 +5,21 @@ import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import { TextField } from "@/components/text-field";
-import { useSignIn } from "@/features/profile/api/use-auth";
+import { useSignUp } from "@/features/profile/api/use-auth";
 import { credentialsSchema, type Credentials } from "@/features/profile/schemas/credentials";
 import { spacing, typography, useThemeColors } from "@/theme";
 
-export default function SignInScreen() {
+export default function SignUpScreen() {
   const colors = useThemeColors();
-  const signIn = useSignIn();
+  const signUp = useSignUp();
   const { control, handleSubmit } = useForm<Credentials>({
     resolver: zodResolver(credentialsSchema),
     defaultValues: { email: "", password: "" }
   });
 
   const submit = handleSubmit((values) => {
-    signIn.mutate(values, {
-      onSuccess: () => router.replace("/")
+    signUp.mutate(values, {
+      onSuccess: () => router.replace("/(auth)/onboarding")
     });
   });
 
@@ -35,9 +35,11 @@ export default function SignInScreen() {
     >
       <View style={{ gap: spacing.xl }}>
         <View style={{ gap: spacing.xs }}>
-          <Text style={{ ...typography.title, color: colors.textPrimary }}>Welcome back</Text>
+          <Text style={{ ...typography.title, color: colors.textPrimary }}>
+            Let&apos;s get started
+          </Text>
           <Text style={{ ...typography.body, color: colors.textSecondary }}>
-            Pick up where you left off.
+            One account, all your progress.
           </Text>
         </View>
 
@@ -64,24 +66,24 @@ export default function SignInScreen() {
               <TextField
                 label="Password"
                 secureTextEntry
-                autoComplete="current-password"
+                autoComplete="new-password"
                 value={field.value}
                 onChangeText={field.onChange}
                 error={fieldState.error?.message}
               />
             )}
           />
-          {signIn.isError ? (
+          {signUp.isError ? (
             <Text accessibilityRole="alert" style={{ ...typography.caption, color: colors.warn }}>
-              We couldn&apos;t sign you in — check your details and try again.
+              We couldn&apos;t create your account — try a different email.
             </Text>
           ) : null}
-          <Button label="Sign in" loading={signIn.isPending} onPress={() => void submit()} />
+          <Button label="Create account" loading={signUp.isPending} onPress={() => void submit()} />
         </Card>
 
-        <Link href="/(auth)/sign-up" style={{ alignSelf: "center" }}>
+        <Link href="/(auth)/sign-in" style={{ alignSelf: "center" }}>
           <Text style={{ ...typography.body, color: colors.primary }}>
-            New here? Create an account
+            Already have an account? Sign in
           </Text>
         </Link>
       </View>

@@ -1,8 +1,19 @@
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
+import { useProfile } from "@/features/profile/api/use-profile";
+import { useSessionStore } from "@/stores/session";
 import { useThemeColors } from "@/theme";
 
 export default function TabsLayout() {
   const colors = useThemeColors();
+  const session = useSessionStore((s) => s.session);
+  const initialized = useSessionStore((s) => s.initialized);
+  const profile = useProfile();
+
+  if (!initialized) return null;
+  if (!session) return <Redirect href="/(auth)/sign-in" />;
+  if (profile.data && !profile.data.onboardingCompleted) {
+    return <Redirect href="/(auth)/onboarding" />;
+  }
 
   return (
     <Tabs
