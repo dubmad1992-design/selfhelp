@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "appathy-app",
-    "slug": "appathy-app",
+    "name": "fitness-app",
+    "slug": "fitness-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "appathyapp",
+    "scheme": "fitnessapp",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"
