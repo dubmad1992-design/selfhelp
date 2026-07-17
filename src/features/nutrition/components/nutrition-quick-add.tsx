@@ -7,6 +7,7 @@ import { TextField } from "@/components/text-field";
 import { useProfile } from "@/features/profile/api/use-profile";
 import { spacing, typography, useThemeColors } from "@/theme";
 import { useAddNutrition, useNutritionDay } from "../api/use-nutrition-day";
+import { FoodEstimateInput } from "./food-estimate-input";
 import { dayTotals, targetFraction } from "../lib/day-totals";
 import { addNutritionInputSchema } from "../schemas/nutrition";
 
@@ -81,6 +82,18 @@ export function NutritionQuickAdd({ day }: { day: string }) {
           </View>
         ))}
       </View>
+
+      <FoodEstimateInput
+        onEstimate={(totals) => {
+          setError(null);
+          setDraft({
+            calories: String(totals.calories),
+            proteinG: String(Math.round(totals.proteinG)),
+            carbsG: String(Math.round(totals.carbsG)),
+            fatG: String(Math.round(totals.fatG))
+          });
+        }}
+      />
 
       <View style={{ gap: spacing.sm }}>
         <TextField
