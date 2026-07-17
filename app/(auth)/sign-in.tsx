@@ -6,12 +6,14 @@ import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import { TextField } from "@/components/text-field";
 import { useSignIn } from "@/features/profile/api/use-auth";
+import { useGoogleSignIn } from "@/features/profile/api/use-google-auth";
 import { credentialsSchema, type Credentials } from "@/features/profile/schemas/credentials";
 import { spacing, typography, useThemeColors } from "@/theme";
 
 export default function SignInScreen() {
   const colors = useThemeColors();
   const signIn = useSignIn();
+  const googleSignIn = useGoogleSignIn();
   const { control, handleSubmit } = useForm<Credentials>({
     resolver: zodResolver(credentialsSchema),
     defaultValues: { email: "", password: "" }
@@ -77,6 +79,12 @@ export default function SignInScreen() {
             </Text>
           ) : null}
           <Button label="Sign in" loading={signIn.isPending} onPress={() => void submit()} />
+          <Button
+            label="Continue with Google"
+            variant="secondary"
+            loading={googleSignIn.isPending}
+            onPress={() => googleSignIn.mutate(undefined, { onSuccess: () => router.replace("/") })}
+          />
         </Card>
 
         <Link href="/(auth)/sign-up" style={{ alignSelf: "center" }}>
