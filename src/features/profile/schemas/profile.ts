@@ -11,6 +11,11 @@ export const profileSchema = z.object({
   goalWeightKg: z.number().positive().max(500).nullable(),
   heightCm: z.number().positive().max(300).nullable(),
   onboardingCompleted: z.boolean(),
+  calorieTarget: z.number().int(),
+  proteinTargetG: z.number().int(),
+  carbsTargetG: z.number().int(),
+  fatTargetG: z.number().int(),
+  waterTargetMl: z.number().int(),
   createdAt: z.string(),
   updatedAt: z.string()
 });
@@ -43,6 +48,11 @@ export function profileFromRow(row: Record<string, unknown>): Profile {
     goalWeightKg: row.goal_weight_kg === null ? null : Number(row.goal_weight_kg),
     heightCm: row.height_cm === null ? null : Number(row.height_cm),
     onboardingCompleted: row.onboarding_completed,
+    calorieTarget: row.calorie_target,
+    proteinTargetG: row.protein_target_g,
+    carbsTargetG: row.carbs_target_g,
+    fatTargetG: row.fat_target_g,
+    waterTargetMl: row.water_target_ml,
     createdAt: row.created_at,
     updatedAt: row.updated_at
   });
